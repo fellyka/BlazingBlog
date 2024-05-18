@@ -1,10 +1,17 @@
 using BlazingBlog.Components;
+using BlazingBlog.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
 	.AddInteractiveServerComponents();
+
+var blogConnectionString = builder.Configuration.GetConnectionString("Blog");
+builder.Services.AddDbContext<BlogContext>(opts => opts.UseSqlServer(blogConnectionString));
+
+
 
 var app = builder.Build();
 
